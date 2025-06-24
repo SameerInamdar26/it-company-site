@@ -598,3 +598,29 @@ h1.logo {
   background-color: #0056b3;
 }
 
+.mobile-links {
+  display: none;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-links a {
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: #e9f2ff;
+  color: #007BFF;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .mobile-links {
+    display: flex;
+  }
+  .nav-links {
+    display: none;
+  }
+}
+

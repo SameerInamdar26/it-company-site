@@ -598,27 +598,36 @@ h1.logo {
   background-color: #0056b3;
 }
 
-.mobile-links {
+.mobile-quick-nav {
   display: none;
-  gap: 0.5rem;
-  justify-content: center;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
 }
 
-.mobile-links a {
-  font-weight: 600;
+.mobile-quick-nav a {
+  display: inline-block;
+  margin: 6px 8px;
   padding: 6px 12px;
-  border-radius: 6px;
-  background: #e9f2ff;
+  background: #e6f0ff;
   color: #007BFF;
+  font-weight: 600;
+  border-radius: 4px;
   font-size: 0.9rem;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.mobile-quick-nav a:hover {
+  background: #007BFF;
+  color: #fff;
 }
 
 @media (max-width: 768px) {
-  .mobile-links {
+  .mobile-quick-nav {
     display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
   }
+
   .nav-links {
     display: none;
   }

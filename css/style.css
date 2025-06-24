@@ -387,8 +387,7 @@ h1.logo {
 }
 
 .perks-list-buttons li {
-  background-color: #007BFF;
-  color: white;
+  color: #007bff;
   padding: 12px 18px;
   border-radius: 8px;
   text-align: center;
@@ -662,4 +661,95 @@ h1.logo {
 
 .perk-item span {
   margin-left: 0.6rem;
+}
+
+.internship-domains {
+  background: linear-gradient(to bottom right, #f0f7ff, #ffffff);
+  padding: 4rem 1rem;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #0056d2;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 2rem;
+}
+
+.domain-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.8rem 1.2rem;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.domain-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(0, 100, 255, 0.15);
+}
+
+.domain-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.domain-card h4 {
+  font-size: 1.2rem;
+  margin-bottom: 0.6rem;
+  color: #222;
+}
+
+.domain-card p {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 1.2rem;
+}
+
+.apply-btn {
+  background: linear-gradient(to right, #28a745, #218838); /* Dopamine green */
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.3);
+  border: none;                 /* Remove border */
+  outline: none;                /* Remove focus outline */
+}
+
+.apply-btn:hover {
+  background: linear-gradient(to right, #218838, #1e7e34);
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(33, 136, 56, 0.4);
+}
+
+.apply-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(72, 180, 97, 0.4); /* Optional subtle green focus ring */
+}
+
+.domain-card.sky {
+  background: linear-gradient(135deg, #00c6ff, #0072ff);
+  color: white;
+}
+
+.domain-card {
+  color: white !important;
+}
+
+.domain-card h4,
+.domain-card p,
+.domain-card .domain-icon {
+  color: white !important;
 }

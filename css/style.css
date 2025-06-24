@@ -753,3 +753,57 @@ h1.logo {
 .domain-card .domain-icon {
   color: white !important;
 }
+
+
+/* 🔥 Offer Banner Style */
+.animated-offer {
+  background: linear-gradient(135deg, #007BFF, #00c6ff);
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+  border-radius: 16px;
+  margin: 40px 0;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.animated-offer h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  animation: pulse 2.5s infinite;
+}
+
+.animated-offer p {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 10px 0;
+}
+
+.animated-offer .btn {
+  background: #28a745;
+  color: white;
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+/* 👇 Smooth bounce attention effect on button */
+.apply-shake {
+  animation: bounce 1.8s infinite;
+}
+
+/* 🔄 Pulse Animation for title */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* 🔁 Bounce for CTA */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+

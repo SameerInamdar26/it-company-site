@@ -172,56 +172,74 @@
       Get hands-on training in real industry projects with these premium benefits:
     </p>
 
-    <div class="grid-3" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-      
-      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;" 
-        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'" 
+    <style>
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      @media (max-width: 900px) {
+        .grid-3 {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .grid-3 {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+    <div class="grid-3">
+      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;"
+        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'"
         onmouseout="this.style.transform=''; this.style.boxShadow='0 10px 30px rgba(0,123,255,0.08)'">
         <i class="fas fa-id-card fa-2x" style="color: #007BFF; margin-bottom: 12px;"></i>
         <h3>Identity Card</h3>
         <p style="color: #555;">Official company intern ID provided.</p>
       </div>
 
-      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;" 
-        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'" 
+      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;"
+        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'"
         onmouseout="this.style.transform=''; this.style.boxShadow='0 10px 30px rgba(0,123,255,0.08)'">
         <i class="fas fa-scroll fa-2x" style="color: #28a745; margin-bottom: 12px;"></i>
         <h3>Completion Certificate</h3>
         <p style="color: #555;">Verified proof of internship on project completion.</p>
       </div>
 
-      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;" 
-        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'" 
+      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;"
+        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'"
         onmouseout="this.style.transform=''; this.style.boxShadow='0 10px 30px rgba(0,123,255,0.08)'">
         <i class="fas fa-envelope-open-text fa-2x" style="color: #ffc107; margin-bottom: 12px;"></i>
         <h3>Letter of Recommendation</h3>
         <p style="color: #555;">Get endorsed by industry professionals.</p>
       </div>
 
-      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;" 
-        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'" 
+      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;"
+        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'"
         onmouseout="this.style.transform=''; this.style.boxShadow='0 10px 30px rgba(0,123,255,0.08)'">
         <i class="fas fa-project-diagram fa-2x" style="color: #17a2b8; margin-bottom: 12px;"></i>
         <h3>Real-World Projects</h3>
         <p style="color: #555;">Work on real company-level projects with mentor guidance.</p>
       </div>
 
-      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;" 
-        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'" 
+      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;"
+        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'"
         onmouseout="this.style.transform=''; this.style.boxShadow='0 10px 30px rgba(0,123,255,0.08)'">
         <i class="fas fa-trophy fa-2x" style="color: #dc3545; margin-bottom: 12px;"></i>
         <h3>Top Performer Recognition</h3>
         <p style="color: #555;">Get featured and recommended for outstanding contributions.</p>
       </div>
 
-      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;" 
-        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'" 
+      <div class="card" style="background: white; border-radius: 16px; padding: 25px; text-align: center; box-shadow: 0 10px 30px rgba(0,123,255,0.08); transition: all 0.3s ease;"
+        onmouseover="this.style.transform='translateY(-6px)'; this.style.boxShadow='0 20px 40px rgba(0,123,255,0.15)'"
         onmouseout="this.style.transform=''; this.style.boxShadow='0 10px 30px rgba(0,123,255,0.08)'">
         <i class="fas fa-graduation-cap fa-2x" style="color: #8e44ad; margin-bottom: 12px;"></i>
         <h3>Student Projects</h3>
         <p style="color: #555;">We provide guided real-world projects to students for practical learning.</p>
       </div>
-
     </div>
 
     <div style="text-align: center; margin-top: 40px;">
@@ -246,7 +264,7 @@
 <section class="section program-description">
   <div class="container program-grid">
     <div class="program-image">
-      <img src="images/affordable.png" alt="Program Description">
+      <img src="images/affordable.png" alt="Program Description" style="border-radius: 50% 20% / 5% 40%;">
     </div>
     <div class="program-content">
       <h3>Most Affordable Budget-Friendly Pricing</h3>

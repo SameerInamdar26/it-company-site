@@ -7,20 +7,26 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 20px;
+      align-items: flex-start;
+      padding: 40px 20px;
     }
     .task-view {
-      background: white;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
       border-radius: 20px;
       padding: 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
       max-width: 800px;
       width: 100%;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     .task-header {
       display: flex;
@@ -30,16 +36,28 @@
       flex-wrap: wrap;
       gap: 15px;
     }
-    .task-header h2 { color: #333; font-size: 24px; }
+    .task-header h2 {
+      font-size: 26px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
     .back-btn {
-      padding: 10px 20px; background: #95a5a6; color: white;
-      border: none; border-radius: 6px; cursor: pointer;
+      padding: 10px 20px;
+      background: #95a5a6;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
     }
     .task-content {
       background: #f8f9fa;
       padding: 20px;
       border-radius: 12px;
       margin-bottom: 20px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
     }
     .task-content h3 { color: #667eea; margin-bottom: 10px; }
     .task-content p { color: #555; line-height: 1.6; }
@@ -59,6 +77,7 @@
       color: white;
       border-radius: 8px;
       cursor: pointer;
+      font-weight: 600;
     }
     .upload-label:hover { background: #764ba2; }
     .file-name { margin-top: 10px; color: #666; font-size: 14px; }
@@ -79,16 +98,72 @@
       margin-top: 15px;
       font-weight: 600;
     }
+    .info-note {
+      background: rgba(102,126,234,0.2);
+      backdrop-filter: blur(10px);
+      color: #333;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 25px 0;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .info-note h3 { margin-bottom: 10px; font-size: 20px; font-weight: 700; color: #667eea; }
+    .inform-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 15px;
+    }
+    .inform-btn:hover { transform: scale(1.05); }
+    .inform-box {
+      display: none;
+      margin-top: 20px;
+    }
+    .inform-box textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 2px solid #667eea;
+      margin-bottom: 12px;
+      font-size: 14px;
+      resize: none;
+    }
+    .submit-inform {
+      padding: 12px 24px;
+      background: #43cea2;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .inform-success {
+      display: none;
+      background: #27ae60;
+      color: white;
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
   <div class="task-view">
     <div class="task-header">
-      <h2 id="taskTitle">Day Task</h2>
+      <h2 id="taskTitle">Today's Task</h2>
       <button class="back-btn" onclick="backToDashboard()">← Back</button>
     </div>
     <div class="task-content">
-      <h3 id="taskHeading">Today's Task</h3>
+      <h3 id="taskHeading">Task Title</h3>
       <p id="taskDescription"></p>
     </div>
     <div class="upload-section">
@@ -98,6 +173,19 @@
     </div>
     <button class="submit-btn" id="submitBtn" onclick="submitTask()">Submit Task</button>
     <div class="success-message" id="successMessage">✅ Task submitted successfully!</div>
+
+    <!-- Info Note + Inform Us -->
+    <div class="info-note">
+      <h3>💡 Internship Task Cycle</h3>
+      <p>Every <strong>4 days at 9:00 AM</strong> (your local time), you'll receive an exciting new professional task to explore. You’ll have until <strong>11:00 AM on the fourth day</strong> to submit your work through the portal. This rhythm mirrors real-world project timelines and helps you build strong time-management skills.</p>
+    <p style="background-color:#f0f8ff; padding:10px; border-left:4px solid #4CAF50;"><strong>🌟 Life happens!</strong> If something unexpected comes up and you’re unable to complete the task—<em>don’t stress, it’s totally normal</em> 😊. Just inform your supervisor using the form below, and we’ll help you get back on track. Your growth is our priority!</p>
+    </div>
+    <button class="inform-btn" onclick="showInformBox()">📢 Inform Us</button>
+    <div id="informBox" class="inform-box">
+      <textarea id="informText" rows="4" placeholder="Hi my name is [Your Name] and my username is [Your Username]. I am not able to complete this task."></textarea>
+      <button class="submit-inform" onclick="submitInform()">✅ Submit</button>
+    </div>
+    <div id="informSuccess" class="inform-success">✅ Thank you for informing. Try the next task… keep learning!</div>
   </div>
 
   <script>
@@ -106,82 +194,40 @@
       window.location.href = "login.html";
     }
 
-    // Full Stack Development Internship Tasks (60 days)
+    // Example tasks (every 4 days + mediator tasks) - Updated with more detailed, professional descriptions
     const tasks = {
-      1: { title: "HTML Basics", description: "Build a simple webpage with headings, paragraphs, lists, and links." },
-      2: { title: "CSS Fundamentals", description: "Style your HTML page with colors, fonts, and spacing." },
-      3: { title: "Responsive Design", description: "Use media queries to make your page mobile-friendly." },
-      4: { title: "Flexbox Layout", description: "Create a layout using CSS Flexbox." },
-      5: { title: "Grid Layout", description: "Design a layout using CSS Grid." },
-      6: { title: "JavaScript Basics", description: "Write scripts with variables, operators, and functions." },
-      7: { title: "DOM Manipulation", description: "Change HTML content dynamically using JavaScript." },
-      8: { title: "Events in JS", description: "Handle click, hover, and input events." },
-      9: { title: "Form Validation", description: "Validate user input with JavaScript." },
-      10: { title: "ES6 Features", description: "Practice let/const, arrow functions, template literals." },
-      11: { title: "Git Basics", description: "Initialize a repo, commit changes, push to GitHub." },
-      12: { title: "Git Branching", description: "Work with branches and merge code." },
-      13: { title: "Bootstrap Basics", description: "Use Bootstrap for responsive design." },
-      14: { title: "React Setup", description: "Create a React app with create-react-app." },
-      15: { title: "React Components", description: "Build functional components and props." },
-      16: { title: "React State", description: "Manage state with useState hook." },
-      17: { title: "React Forms", description: "Handle forms and inputs in React." },
-      18: { title: "React Router", description: "Implement navigation with React Router." },
-      19: { title: "React API Calls", description: "Fetch data from APIs using fetch/axios." },
-      20: { title: "React Project", description: "Build a small React project (ToDo App)." },
-      21: { title: "Node.js Basics", description: "Setup Node.js and run scripts." },
-      22: { title: "NPM & Packages", description: "Install and use npm packages." },
-      23: { title: "Express Basics", description: "Create a REST API with Express." },
-      24: { title: "Middleware", description: "Use middleware in Express apps." },
-      25: { title: "Routing in Express", description: "Setup routes for GET/POST requests." },
-      26: { title: "MongoDB Basics", description: "Setup MongoDB and create collections." },
-      27: { title: "CRUD in MongoDB", description: "Perform Create, Read, Update, Delete operations." },
-      28: { title: "Mongoose ORM", description: "Use Mongoose for schema and models." },
-      29: { title: "REST API Project", description: "Build a CRUD API with Express + MongoDB." },
-      30: { title: "Authentication Basics", description: "Implement login/signup with JWT." },
-      31: { title: "Authorization", description: "Restrict access to certain routes." },
-      32: { title: "Password Hashing", description: "Use bcrypt to hash passwords." },
-      33: { title: "Session Management", description: "Handle sessions and cookies." },
-      34: { title: "API Security", description: "Add validation and error handling." },
-      35: { title: "Frontend + Backend Integration", description: "Connect React frontend with Express backend." },
-      36: { title: "Deployment Basics", description: "Deploy app on Heroku/Netlify." },
-      37: { title: "Environment Variables", description: "Use dotenv for secrets." },
-      38: { title: "Testing Basics", description: "Write unit tests with Jest." },
-      39: { title: "Integration Testing", description: "Test API endpoints." },
-      40: { title: "CI/CD Basics", description: "Setup GitHub Actions for CI/CD." },
-      41: { title: "Docker Basics", description: "Containerize your app with Docker." },
-      42: { title: "Docker Compose", description: "Run multi-container apps." },
-      43: { title: "Advanced React Hooks", description: "Use useEffect, useContext." },
-      44: { title: "Redux Basics", description: "Implement global state management with Redux." },
-      45: { title: "Redux Advanced", description: "Use middleware like Redux Thunk for async actions." },
-      46: { title: "TypeScript Basics", description: "Convert a small JS project to TypeScript." },
-      47: { title: "TypeScript with React", description: "Use TypeScript in a React project." },
-      48: { title: "Next.js Basics", description: "Setup a Next.js project and create pages." },
-      49: { title: "Next.js Routing", description: "Implement dynamic routing in Next.js." },
-      50: { title: "Next.js API Routes", description: "Create backend API routes in Next.js." },
-      51: { title: "GraphQL Basics", description: "Setup a GraphQL server and query data." },
-      52: { title: "Apollo Client", description: "Use Apollo Client in React to fetch GraphQL data." },
-      53: { title: "Full Stack Project Setup", description: "Plan a full stack project architecture." },
-      54: { title: "Frontend Development", description: "Build the frontend for your full stack project." },
-      55: { title: "Backend Development", description: "Build the backend API for your project." },
-      56: { title: "Database Integration", description: "Connect backend with MongoDB/PostgreSQL." },
-      57: { title: "Authentication System", description: "Implement login/signup in your project." },
-      58: { title: "Authorization System", description: "Restrict access to certain features." },
-      59: { title: "Final Project Testing", description: "Test your full stack project thoroughly." },
-      60: { title: "Final Project Deployment", description: "Deploy your project to production (Netlify/Vercel/Heroku)." }
+      1: { 
+        title: "Internship Task: Landing Page Project", 
+        description: "Objective: As part of your internship, create a professional landing page for a fictional client's portfolio website. This task builds on foundational HTML skills while introducing advanced concepts like responsiveness and user experience.\n\nRequirements:\n- Structure: Use semantic HTML5 elements (<header>, <nav>, <main>, <footer>) with at least 3 sections: introduction, skills showcase, and contact form.\n- Content: Add headings, paragraphs, unordered list of skills, ordered list for project timelines, and at least 5 links.\n- Interactivity: Basic CSS styling and a simple JS feature (collapsible menu or form validation).\n- Responsiveness: Adapt to mobile, tablet, and desktop using media queries.\n- Best Practices: Accessibility (alt text, keyboard navigation). Include comments explaining key decisions.\n\nSubmission: Upload HTML, CSS, and JS files."
+      },
+      4: { title: "Internship Task: CSS Styling", description: "Style your landing page with a professional theme: consistent colors, fonts, spacing, and hover effects." },
+      8: { title: "Internship Task: Mini Portfolio", description: "Create a small portfolio page with your name, photo, and 2 project links." },
+      12: { title: "Internship Task: JavaScript Fundamentals", description: "Write scripts with variables, operators, loops, and functions to add interactivity." },
+      16: { title: "Internship Task: Interactive Form", description: "Build a form with validation (name, email, password) using JavaScript." },
+      20: { title: "Internship Task: React Basics", description: "Setup a React app and create functional components with props." },
+      24: { title: "Internship Task: To‑Do App", description: "Build a simple To‑Do list app in React with add/remove functionality." },
+      28: { title: "Internship Task: Node.js & Express", description: "Create a REST API with Express and basic routes." },
+      32: { title: "Internship Task: API Integration", description: "Connect your React frontend to your Express backend API." },
+      36: { title: "Internship Task: MongoDB & Mongoose", description: "Setup MongoDB, define schemas, and perform CRUD operations." },
+      40: { title: "Internship Task: Blog System", description: "Build a mini blog app with posts stored in MongoDB." },
+      44: { title: "Internship Task: Authentication", description: "Implement login/signup with JWT and password hashing." },
+      48: { title: "Internship Task: Protected Routes", description: "Restrict access to certain pages in your React app using authentication." },
+      52: { title: "Internship Task: Deployment", description: "Deploy your full stack app to Netlify/Vercel (frontend) and Heroku/Render (backend)." },
+      56: { title: "Internship Task: Testing", description: "Write unit tests for your API endpoints using Jest or Mocha." },
+      60: { title: "Final Internship Task: Project Presentation", description: "Prepare and present your full stack project with documentation. This is a standalone final assignment, not connected to the next task." }
     };
 
-    // Load current task day
     const day = localStorage.getItem('currentTaskDay');
     if (!day || !tasks[day]) {
-      window.location.href = "dashboard.html";
+      document.getElementById('taskHeading').textContent = "No Task Available";
+      document.getElementById('taskDescription').textContent = "Please check back later when a new task unlocks.";
+    } else {
+      const task = tasks[day];
+      document.getElementById('taskTitle').textContent = "Today's Task";
+      document.getElementById('taskHeading').textContent = task.title;
+      document.getElementById('taskDescription').textContent = task.description;
     }
 
-    const task = tasks[day];
-    document.getElementById('taskTitle').textContent = `Day ${day} - Task`;
-    document.getElementById('taskHeading').textContent = task.title;
-    document.getElementById('taskDescription').textContent = task.description;
-
-    // File upload handling
     document.getElementById('fileInput').addEventListener('change', function(e) {
       const files = e.target.files;
       if (files.length > 0) {
@@ -220,6 +266,14 @@
 
     function backToDashboard() {
       window.location.href = "dashboard.html";
+    }
+
+    function showInformBox() {
+      document.getElementById('informBox').style.display = 'block';
+    }
+    function submitInform() {
+      document.getElementById('informBox').style.display = 'none';
+      document.getElementById('informSuccess').style.display = 'block';
     }
   </script>
 </body>

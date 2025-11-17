@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechNova - Login</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .login-container {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 450px;
+      width: 100%;
+    }
+    .login-header { text-align: center; margin-bottom: 30px; }
+    .login-header h1 { color: #667eea; font-size: 32px; margin-bottom: 10px; }
+    .login-header p { color: #666; font-size: 14px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; margin-bottom: 8px; color: #333; font-weight: 500; }
+    .form-group input {
+      width: 100%; padding: 12px; border: 2px solid #e0e0e0;
+      border-radius: 8px; font-size: 15px;
+    }
+    .form-group input:focus { border-color: #667eea; outline: none; }
+    .login-btn {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border: none; border-radius: 8px;
+      font-size: 16px; font-weight: 600; cursor: pointer;
+    }
+    .error-msg { color: #e74c3c; font-size: 14px; margin-top: 10px; display: none; }
+    .demo-accounts { margin-top: 20px; background: #f8f9fa; padding: 15px; border-radius: 8px; }
+    .demo-accounts h3 { font-size: 14px; color: #666; margin-bottom: 10px; }
+    .demo-accounts p { font-size: 13px; color: #888; margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <h1>TechNova</h1>
+      <p>Internship Portal Login</p>
+    </div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" required>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+      <div class="error-msg" id="errorMsg">Invalid username or password</div>
+    </form>
+    <div class="demo-accounts">
+      <h3>Demo Accounts:</h3>
+      <p>👤 intern1 / pass123</p>
+      <p>👤 intern2 / pass123</p>
+      <p>👤 student / demo123</p>
+    </div>
+  </div>
+
+  <script>
+    const users = {
+      'intern1': 'pass123',
+      'intern2': 'pass123',
+      'student': 'demo123'
+    };
+
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (users[username] && users[username] === password) {
+        localStorage.setItem('currentUser', username);
+        if (!localStorage.getItem('userProgress')) {
+          localStorage.setItem('userProgress', JSON.stringify({}));
+        }
+        window.location.href = "dashboard.html";
+      } else {
+        document.getElementById('errorMsg').style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
+ 

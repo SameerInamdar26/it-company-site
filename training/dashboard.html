@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechNova - Dashboard</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 20px;
+    }
+    .info-banner {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    animation: fadeIn 1s ease-in-out;
+  }
+  .info-banner h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .info-banner p {
+    margin: 5px 0;
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+    .dashboard {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      max-width: 700px;
+      width: 100%;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 15px;
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 15px;
+    }
+
+    .dashboard-header h2 {
+      font-size: 28px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #444;
+    }
+
+    .logout-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #e74c3c, #c0392b);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .logout-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(231,76,60,0.4);
+    }
+
+    .task-card {
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 20px;
+      text-align: center;
+      font-weight: 600;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .task-card.today {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+      cursor: pointer;
+    }
+    .task-card.today:hover {
+      transform: scale(1.05);
+    }
+
+    .task-card.locked {
+      background: #f5f5f5;
+      color: #999;
+      cursor: not-allowed;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .task-title {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .task-status {
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <h2>🔥 Internship Portal</h2>
+      <div class="user-info">
+        <span id="welcomeUser"></span>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+      </div>
+    </div>
+    <div class="info-banner">
+      <h3>📅 Daily Task Schedule</h3>
+      <p>✅ A new task will be provided every day at <strong>9:00 AM</strong>.</p>
+      <p>⏰ You must submit the task before <strong>12:00 AM midnight</strong> of the same day.</p>
+    </div>
+    <div id="taskContainer"></div>
+  </div>
+
+  <script>
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+      window.location.href = "login.html";
+    }
+    document.getElementById('welcomeUser').textContent = `Welcome, ${currentUser}!`;
+
+    let userProgress = JSON.parse(localStorage.getItem('userProgress')) || {};
+    if (!userProgress[currentUser]) {
+      userProgress[currentUser] = { completedDays: [] };
+      localStorage.setItem('userProgress', JSON.stringify(userProgress));
+    }
+
+    if (!localStorage.getItem('startDate')) {
+      localStorage.setItem('startDate', new Date().toISOString());
+    }
+
+    function getUnlockedDay() {
+      const startDate = new Date(localStorage.getItem('startDate'));
+      const now = new Date();
+      const diffDays = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+      let unlockedDay = diffDays + 1;
+      if (now.getHours() < 9) unlockedDay -= 1;
+      return Math.min(unlockedDay, 60);
+    }
+
+    function renderTasks() {
+      const container = document.getElementById('taskContainer');
+      container.innerHTML = '';
+      const unlockedDay = getUnlockedDay();
+
+      // Show today's task card
+      const todayCard = document.createElement('div');
+      todayCard.className = 'task-card today';
+      todayCard.innerHTML = `<div class="task-title">Today's Task</div><div class="task-status">🚀 Ready to Start</div>`;
+      todayCard.onclick = () => openTask(unlockedDay);
+      container.appendChild(todayCard);
+
+      // Show locked cards for previous days
+      for (let i = 1; i < unlockedDay; i++) {
+        const lockedCard = document.createElement('div');
+        lockedCard.className = 'task-card locked';
+        lockedCard.innerHTML = `<div class="task-title">Previous Task</div><div class="task-status">🔒 Locked</div>`;
+        container.appendChild(lockedCard);
+      }
+    }
+
+    function openTask(day) {
+      localStorage.setItem('currentTaskDay', day);
+      window.location.href = "task.html";
+    }
+
+    function logout() {
+      localStorage.removeItem('currentUser');
+      window.location.href = "login.html";
+    }
+
+    renderTasks();
+  </script>
+</body>
+</html>

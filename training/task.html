@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TechNova - Task</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .task-view {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      max-width: 800px;
+      width: 100%;
+    }
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .task-header h2 { color: #333; font-size: 24px; }
+    .back-btn {
+      padding: 10px 20px; background: #95a5a6; color: white;
+      border: none; border-radius: 6px; cursor: pointer;
+    }
+    .task-content {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .task-content h3 { color: #667eea; margin-bottom: 10px; }
+    .task-content p { color: #555; line-height: 1.6; }
+    .upload-section {
+      border: 2px dashed #667eea;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+      background: #f8f9fa;
+    }
+    .upload-section input[type="file"] { display: none; }
+    .upload-label {
+      display: inline-block;
+      padding: 12px 30px;
+      background: #667eea;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .upload-label:hover { background: #764ba2; }
+    .file-name { margin-top: 10px; color: #666; font-size: 14px; }
+    .submit-btn {
+      width: 100%; padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white; border: none; border-radius: 8px;
+      font-size: 16px; font-weight: 600; cursor: pointer;
+    }
+    .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .success-message {
+      display: none;
+      background: #27ae60;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="task-view">
+    <div class="task-header">
+      <h2 id="taskTitle">Day Task</h2>
+      <button class="back-btn" onclick="backToDashboard()">← Back</button>
+    </div>
+    <div class="task-content">
+      <h3 id="taskHeading">Today's Task</h3>
+      <p id="taskDescription"></p>
+    </div>
+    <div class="upload-section">
+      <input type="file" id="fileInput" multiple accept=".html,.css,.js,.py,.java,.cpp,.txt,.zip">
+      <label for="fileInput" class="upload-label">📁 Choose Files</label>
+      <div class="file-name" id="fileName">No files selected</div>
+    </div>
+    <button class="submit-btn" id="submitBtn" onclick="submitTask()">Submit Task</button>
+    <div class="success-message" id="successMessage">✅ Task submitted successfully!</div>
+  </div>
+
+  <script>
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+      window.location.href = "login.html";
+    }
+
+    // Full Stack Development Internship Tasks (60 days)
+    const tasks = {
+      1: { title: "HTML Basics", description: "Build a simple webpage with headings, paragraphs, lists, and links." },
+      2: { title: "CSS Fundamentals", description: "Style your HTML page with colors, fonts, and spacing." },
+      3: { title: "Responsive Design", description: "Use media queries to make your page mobile-friendly." },
+      4: { title: "Flexbox Layout", description: "Create a layout using CSS Flexbox." },
+      5: { title: "Grid Layout", description: "Design a layout using CSS Grid." },
+      6: { title: "JavaScript Basics", description: "Write scripts with variables, operators, and functions." },
+      7: { title: "DOM Manipulation", description: "Change HTML content dynamically using JavaScript." },
+      8: { title: "Events in JS", description: "Handle click, hover, and input events." },
+      9: { title: "Form Validation", description: "Validate user input with JavaScript." },
+      10: { title: "ES6 Features", description: "Practice let/const, arrow functions, template literals." },
+      11: { title: "Git Basics", description: "Initialize a repo, commit changes, push to GitHub." },
+      12: { title: "Git Branching", description: "Work with branches and merge code." },
+      13: { title: "Bootstrap Basics", description: "Use Bootstrap for responsive design." },
+      14: { title: "React Setup", description: "Create a React app with create-react-app." },
+      15: { title: "React Components", description: "Build functional components and props." },
+      16: { title: "React State", description: "Manage state with useState hook." },
+      17: { title: "React Forms", description: "Handle forms and inputs in React." },
+      18: { title: "React Router", description: "Implement navigation with React Router." },
+      19: { title: "React API Calls", description: "Fetch data from APIs using fetch/axios." },
+      20: { title: "React Project", description: "Build a small React project (ToDo App)." },
+      21: { title: "Node.js Basics", description: "Setup Node.js and run scripts." },
+      22: { title: "NPM & Packages", description: "Install and use npm packages." },
+      23: { title: "Express Basics", description: "Create a REST API with Express." },
+      24: { title: "Middleware", description: "Use middleware in Express apps." },
+      25: { title: "Routing in Express", description: "Setup routes for GET/POST requests." },
+      26: { title: "MongoDB Basics", description: "Setup MongoDB and create collections." },
+      27: { title: "CRUD in MongoDB", description: "Perform Create, Read, Update, Delete operations." },
+      28: { title: "Mongoose ORM", description: "Use Mongoose for schema and models." },
+      29: { title: "REST API Project", description: "Build a CRUD API with Express + MongoDB." },
+      30: { title: "Authentication Basics", description: "Implement login/signup with JWT." },
+      31: { title: "Authorization", description: "Restrict access to certain routes." },
+      32: { title: "Password Hashing", description: "Use bcrypt to hash passwords." },
+      33: { title: "Session Management", description: "Handle sessions and cookies." },
+      34: { title: "API Security", description: "Add validation and error handling." },
+      35: { title: "Frontend + Backend Integration", description: "Connect React frontend with Express backend." },
+      36: { title: "Deployment Basics", description: "Deploy app on Heroku/Netlify." },
+      37: { title: "Environment Variables", description: "Use dotenv for secrets." },
+      38: { title: "Testing Basics", description: "Write unit tests with Jest." },
+      39: { title: "Integration Testing", description: "Test API endpoints." },
+      40: { title: "CI/CD Basics", description: "Setup GitHub Actions for CI/CD." },
+      41: { title: "Docker Basics", description: "Containerize your app with Docker." },
+      42: { title: "Docker Compose", description: "Run multi-container apps." },
+      43: { title: "Advanced React Hooks", description: "Use useEffect, useContext." },
+      44: { title: "Redux Basics", description: "Implement global state management with Redux." },
+      45: { title: "Redux Advanced", description: "Use middleware like Redux Thunk for async actions." },
+      46: { title: "TypeScript Basics", description: "Convert a small JS project to TypeScript." },
+      47: { title: "TypeScript with React", description: "Use TypeScript in a React project." },
+      48: { title: "Next.js Basics", description: "Setup a Next.js project and create pages." },
+      49: { title: "Next.js Routing", description: "Implement dynamic routing in Next.js." },
+      50: { title: "Next.js API Routes", description: "Create backend API routes in Next.js." },
+      51: { title: "GraphQL Basics", description: "Setup a GraphQL server and query data." },
+      52: { title: "Apollo Client", description: "Use Apollo Client in React to fetch GraphQL data." },
+      53: { title: "Full Stack Project Setup", description: "Plan a full stack project architecture." },
+      54: { title: "Frontend Development", description: "Build the frontend for your full stack project." },
+      55: { title: "Backend Development", description: "Build the backend API for your project." },
+      56: { title: "Database Integration", description: "Connect backend with MongoDB/PostgreSQL." },
+      57: { title: "Authentication System", description: "Implement login/signup in your project." },
+      58: { title: "Authorization System", description: "Restrict access to certain features." },
+      59: { title: "Final Project Testing", description: "Test your full stack project thoroughly." },
+      60: { title: "Final Project Deployment", description: "Deploy your project to production (Netlify/Vercel/Heroku)." }
+    };
+
+    // Load current task day
+    const day = localStorage.getItem('currentTaskDay');
+    if (!day || !tasks[day]) {
+      window.location.href = "dashboard.html";
+    }
+
+    const task = tasks[day];
+    document.getElementById('taskTitle').textContent = `Day ${day} - Task`;
+    document.getElementById('taskHeading').textContent = task.title;
+    document.getElementById('taskDescription').textContent = task.description;
+
+    // File upload handling
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+      const files = e.target.files;
+      if (files.length > 0) {
+        const fileNames = Array.from(files).map(f => f.name).join(', ');
+        document.getElementById('fileName').textContent = `Selected: ${fileNames}`;
+      } else {
+        document.getElementById('fileName').textContent = 'No files selected';
+      }
+    });
+
+    function submitTask() {
+      const fileInput = document.getElementById('fileInput');
+      if (fileInput.files.length === 0) {
+        alert('Please upload at least one file before submitting!');
+        return;
+      }
+
+      let userProgress = JSON.parse(localStorage.getItem('userProgress')) || {};
+      if (!userProgress[currentUser]) {
+        userProgress[currentUser] = { completedDays: [] };
+      }
+
+      if (!userProgress[currentUser].completedDays.includes(Number(day))) {
+        userProgress[currentUser].completedDays.push(Number(day));
+      }
+
+      localStorage.setItem('userProgress', JSON.stringify(userProgress));
+
+      document.getElementById('successMessage').style.display = 'block';
+      document.getElementById('submitBtn').disabled = true;
+
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 2000);
+    }
+
+    function backToDashboard() {
+      window.location.href = "dashboard.html";
+    }
+  </script>
+</body>
+</html>
